@@ -4,6 +4,8 @@
 
 - `POST /users/register` - User registration endpoint.
 - `POST /users/login` - User login endpoint.
+- `GET /users/profile` - Get user profile endpoint.
+- `GET /users/logout` - User logout endpoint.
 
 ---
 
@@ -140,5 +142,79 @@ The request must be in JSON format and include the following properties:
   "errors": [
     { "msg": "Error message", "param": "field_name", "location": "body" }
   ]
+}
+```
+
+---
+
+## User Profile Endpoint
+
+### Endpoint
+
+`GET /users/profile`
+
+### Description
+
+This endpoint retrieves the authenticated user's profile information. The request must include a valid authentication token provided either in the authorization header or cookies. The middleware verifies the token before accessing the profile information.
+
+### Success Response
+
+- **Status Code:** 200 OK
+- **Response Body:**
+
+```json
+{
+  "_id": "user_id",
+  "fullname": {
+    "firstname": "Alice",
+    "lastname": "Smith"
+  },
+  "email": "alice.smith@example.com"
+  // Additional user details if available...
+}
+```
+
+### Authentication Error
+
+- **Status Code:** 401 Unauthorized
+- **Response Body:**
+
+```json
+{
+  "message": "Unauthorized access"
+}
+```
+
+---
+
+## User Logout Endpoint
+
+### Endpoint
+
+`GET /users/logout`
+
+### Description
+
+This endpoint logs out the authenticated user by clearing the authentication token. It also blacklists the current token to prevent its further use. The user must be authenticated to access this endpoint.
+
+### Success Response
+
+- **Status Code:** 200 OK
+- **Response Body:**
+
+```json
+{
+  "message": "Logged out successfully"
+}
+```
+
+### Authentication Error
+
+- **Status Code:** 401 Unauthorized
+- **Response Body:**
+
+```json
+{
+  "message": "Unauthorized access"
 }
 ```
